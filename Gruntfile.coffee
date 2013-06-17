@@ -1,11 +1,7 @@
-#grunt.registerTask 'setGlobal', 'Set a global variable.', (name, val) ->
-#global['name'] = val
-
-# grunt-connect-rewrite
 rewriteRulesSnippet = require('grunt-connect-rewrite/lib/utils').rewriteRequest
 
-devTasks = ['set_global', 'clean:dev', 'copy:dev', 'haml:html', 'haml:haml_coffee', 'coffee:dev', 'markdown:dev', 'html_json_wrapper:dev', 'insert_json_to_dom:dev']
-prodTasks = ['clean:prod', 'copy:prod', 'haml:html', 'haml:haml_coffee', 'coffee:prod', 'markdown:prod', 'html_json_wrapper:prod', 'compass:prod', 'concat:prod', 'closure-compiler:prod', 'insert_json_to_dom:prod', 'cssmin:prod', 'cachebust', 'clean:prod_js']
+devTasks = ['set_global', 'clean:dev', 'copy:dev', 'haml:html', 'haml:haml_coffee', 'coffee:dev', 'markdown:dev', 'html_json_wrapper:dev']
+prodTasks = ['clean:prod', 'copy:prod', 'haml:html', 'haml:haml_coffee', 'coffee:prod', 'markdown:prod', 'html_json_wrapper:prod', 'compass:prod', 'concat:prod', 'closure-compiler:prod', 'cssmin:prod', 'cachebust', 'clean:prod_js']
 
 # can't use 'source/javascripts/**' for this as the loading sequence is important
 filesToLoad = (path) ->
@@ -16,9 +12,10 @@ filesToLoad = (path) ->
   files = [
     'vendor/angular.js'
     'vendor/underscore.js'
+    'app_init.js'
+    'controllers/simple_controller.js'
     # 'vendor/swipe.js'
     # 'vendor/jquery.imagesloaded.js'
-    # 'app_init.js'
     # 'collections/gallery_collection.js'
     # 'models/gallery_model.js'
     # 'routers/app_router.js'
@@ -73,7 +70,7 @@ module.exports = (grunt) ->
               './grunt_dev/content/**',
               './grunt_dev/images/**',
               './grunt_dev/javascripts/**',
-              './grunt_dev/index.html'
+              './grunt_dev/*.html'
             ]
             , filter: 'isFile' # this line MUST start with a comma; reason for this option: prevent 'Cannot delete files outside the current working directory.' error, see: https://github.com/gruntjs/grunt-contrib-clean/issues/15#issuecomment-14301612
           }
@@ -120,9 +117,10 @@ module.exports = (grunt) ->
 
     haml:
       html:
-        files:
-          'grunt_dev/index.html': 'source/index_dev.haml'
-          'grunt_<%= environment %>/index.html': 'source/index_<%= environment %>.haml'
+        files: [
+          { expand: true, cwd: 'source/', src: ['index_<%= environment %>.haml'], dest: 'grunt_<%= environment %>/', ext: '.html', rename: (dest, src) -> dest + 'index.html' }
+          { expand: true, cwd: 'source/', src: ['**/*.haml', '!index_dev.haml', '!index_prod.haml'], dest: 'grunt_<%= environment %>/', ext: '.html' }
+        ]
         options:
           target: 'html'
           language: 'coffee'
@@ -156,7 +154,7 @@ module.exports = (grunt) ->
           './source/images/**',
           './source/javascripts/**',
           './source/content/**',
-          './source/index_dev.haml',
+          './source/**/*.haml',
           './Gruntfile.coffee'
         ]
         tasks: 'dev_wrapper'

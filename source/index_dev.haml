@@ -1,5 +1,5 @@
 !!!
-%html{data: {'ng-app': null}}
+%html{data: {'ng-app': 'app'}}
   %head
     %base{href: '/'}
     %title Professional Cynic
@@ -16,17 +16,6 @@
         != "<script src='#{filePath}' type='text/javascript'></script>"
 
   %body
-    .container
-      Name:
-      %br
-      %input{type: 'text', 'data-ng-model': 'name'}
 
-      %br
-      %br
-      Yo dawg, your name is: {{name}}
-
-    .container{data: {'ng-init': 'names=["Jenie", "Dave", "Peter", "Laura"]'}}
-      %h3 Looping with the ng-repeat directive
-      %ul
-        %li{data: {'ng-repeat': 'personName in names'}}
-          {{ personName }}
+    -# Placeholder for the views'
+    %div{'data-ng-view': ''}

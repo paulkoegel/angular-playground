@@ -1,7 +1,19 @@
 'use strict'
 
+NG.app = angular.module 'app', [] # array is for other modules (dependency injection)
 
-
+NG.app.config ($routeProvider) ->
+  $routeProvider
+    .when '/'
+    ,
+      controller: 'SimpleController'
+      templateUrl: 'view_1.html'
+    .when '/view2'
+    ,
+      controller: 'SimpleController'
+      templateUrl: 'view_2.html'
+    .otherwise
+      redirectTo: '/'
 
 # BB.apiRoot = 'http://localhost:4000'
 # 
