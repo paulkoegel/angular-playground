@@ -1,8 +1,8 @@
 {
   "name": "profcyn",
-  "description": "Professional Cynic",
+  "description": "Angular JS Playground",
   "keywords": [
-    "Professional Cynic"
+    "Angular JS Playground"
   ],
   "author": "Paul Wittmann <paul@railslove.com>",
   "version": "0.1.0",
