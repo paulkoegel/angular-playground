@@ -1,5 +1,0 @@
-GALLERY
-= @title
-
-- _(@images).each (image) ->
-  %img{src: image.externalUrl}
